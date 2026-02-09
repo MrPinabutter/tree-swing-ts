@@ -4,19 +4,7 @@ import { clearScreen } from "../../core/terminal/screen";
 import { hideCursor, showCursor } from "../../core/terminal/cursor";
 import { renderColor } from "../../core/input/text";
 import { COLORS } from "../../core/terminal/colors";
-
-const MENU_OPTIONS = [
-  {
-    id: 1,
-    label: "develop",
-    value: "for-dev",
-  },
-  {
-    id: 2,
-    label: "staging",
-    value: "for-stag",
-  },
-];
+import { ConfigService } from "../../services/configService";
 
 const currentOption = 1;
 
@@ -26,12 +14,14 @@ export const showMenuStart = () => {
   process.stdin.setRawMode(true);
   process.stdin.resume();
 
-  const options = MENU_OPTIONS.map((option) => ({
+  const menuOptions = ConfigService.getConfig();
+
+  const options = menuOptions.map((option) => ({
     ...option,
     action: handleCreateNewBranch(option.value, option.label),
   }));
 
-  chooseOption(currentOption, MENU_OPTIONS);
+  chooseOption(currentOption, menuOptions);
   process.stdin.on("data", handleUpdateOptionsMenu(currentOption, options));
 };
 
