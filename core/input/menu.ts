@@ -47,7 +47,7 @@ export const handleUpdateOptionsMenu =
       id: number;
       label: string;
       value: string;
-      action: () => Promise<void>;
+      action: () => Promise<void> | void;
     }[],
   ) =>
   async (key: Buffer) => {

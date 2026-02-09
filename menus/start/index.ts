@@ -5,6 +5,7 @@ import { hideCursor, showCursor } from "../../core/terminal/cursor";
 import { renderColor } from "../../core/input/text";
 import { COLORS } from "../../core/terminal/colors";
 import { ConfigService } from "../../services/configService";
+import { showConfigManager } from "../configManager";
 
 const currentOption = 1;
 
@@ -15,14 +16,27 @@ export const showMenuStart = () => {
   process.stdin.resume();
 
   const menuOptions = ConfigService.getConfig();
+  const otherOption = {
+    id: menuOptions.length + 1,
+    label: "other",
+    value: "other",
+  };
 
-  const options = menuOptions.map((option) => ({
-    ...option,
-    action: handleCreateNewBranch(option.value, option.label),
-  }));
+  const options = [
+    ...menuOptions.map((option) => ({
+      ...option,
+      action: handleCreateNewBranch(option.value, option.label),
+    })),
+    { ...otherOption, action: handleOther },
+  ];
 
-  chooseOption(currentOption, menuOptions);
+  chooseOption(currentOption, [...menuOptions, otherOption]);
   process.stdin.on("data", handleUpdateOptionsMenu(currentOption, options));
+};
+
+const handleOther = () => {
+  process.stdin.removeAllListeners("data");
+  showConfigManager();
 };
 
 const handleCreateNewBranch = (prefix: string, branch: string) => async () => {
