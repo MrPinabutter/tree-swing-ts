@@ -10,7 +10,7 @@ export enum MENU_STATE {
 
 export const chooseOption = (
   selected: number,
-  options: { id: number; label: string; isGoBack?: boolean }[],
+  options: { id: number; label: string; value: string; isGoBack?: boolean }[],
   props?: { title: string },
 ) => {
   const title = props?.title ?? "Select an option:";
@@ -42,10 +42,15 @@ export const chooseOption = (
 
 export const handleUpdateOptionsMenu =
   (
-    options: { id: number; label: string; action: () => void }[],
     selectedOption: number,
+    options: {
+      id: number;
+      label: string;
+      value: string;
+      action: () => Promise<void>;
+    }[],
   ) =>
-  (key: Buffer) => {
+  async (key: Buffer) => {
     if (key[2] === KeyCode.DOWN_ARROW) {
       if (selectedOption < options.length) {
         selectedOption++;
@@ -62,7 +67,7 @@ export const handleUpdateOptionsMenu =
       clearScreen();
       process.stdin.removeAllListeners("data");
 
-      options.find((option) => option.id === selectedOption)?.action();
+      await options.find((option) => option.id === selectedOption)?.action();
     } else if (key[0] === KeyCode.CTRL_C) {
       showCursor();
       clearScreen();
