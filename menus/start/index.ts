@@ -1,7 +1,10 @@
-import { chooseOption, handleUpdateOptionsMenu } from "../../core/input/menu";
+import {
+  chooseOption,
+  handleUpdateOptionsMenu,
+  initMenu,
+} from "../../core/input/menu";
 import { $ } from "bun";
-import { clearScreen } from "../../core/terminal/screen";
-import { hideCursor, showCursor } from "../../core/terminal/cursor";
+import { showCursor } from "../../core/terminal/cursor";
 import { renderColor } from "../../core/input/text";
 import { COLORS } from "../../core/terminal/colors";
 import { ConfigService } from "../../services/configService";
@@ -10,10 +13,7 @@ import { showConfigManager } from "../configManager";
 const currentOption = 1;
 
 export const showMenuStart = () => {
-  clearScreen();
-  hideCursor();
-  process.stdin.setRawMode(true);
-  process.stdin.resume();
+  initMenu();
 
   const menuOptions = ConfigService.getConfig();
   const otherOption = {

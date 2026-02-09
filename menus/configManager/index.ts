@@ -1,10 +1,11 @@
-import { chooseOption, handleUpdateOptionsMenu } from "../../core/input/menu";
-import { clearScreen } from "../../core/terminal/screen";
-import { hideCursor } from "../../core/terminal/cursor";
+import {
+  chooseOption,
+  handleUpdateOptionsMenu,
+  initMenu,
+} from "../../core/input/menu";
 import { showMenuStart } from "../start";
 import { showCreateConfig } from "../createConfig";
-
-const handleDeleteConfig = async () => {};
+import { showDeleteConfig } from "../deleteConfig";
 
 const handleGoBack = () => {
   process.stdin.removeAllListeners("data");
@@ -22,7 +23,7 @@ const MENU_OPTIONS = [
     id: 2,
     label: "Delete config",
     value: "delete",
-    action: handleDeleteConfig,
+    action: showDeleteConfig,
   },
   {
     id: 3,
@@ -36,10 +37,7 @@ const MENU_OPTIONS = [
 const currentOption = 1;
 
 export const showConfigManager = () => {
-  clearScreen();
-  hideCursor();
-  process.stdin.setRawMode(true);
-  process.stdin.resume();
+  initMenu();
 
   chooseOption(currentOption, MENU_OPTIONS);
   process.stdin.on(

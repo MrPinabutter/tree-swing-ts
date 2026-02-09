@@ -1,8 +1,25 @@
 import { COLORS } from "../terminal/colors";
-import { showCursor } from "../terminal/cursor";
+import { hideCursor, showCursor } from "../terminal/cursor";
 import { clearScreen } from "../terminal/screen";
 import { KeyCode } from "./keycodes";
 import { renderColor } from "./text";
+
+interface InitMenuOptions {
+  hideCursor?: boolean;
+}
+
+export const initMenu = (options?: InitMenuOptions) => {
+  const shouldHideCursor = options?.hideCursor ?? true;
+
+  process.stdin.removeAllListeners("data");
+
+  clearScreen();
+  if (shouldHideCursor) {
+    hideCursor();
+  }
+  process.stdin.setRawMode(true);
+  process.stdin.resume();
+};
 
 export enum MENU_STATE {
   MAIN = 1,
@@ -11,7 +28,7 @@ export enum MENU_STATE {
 export const chooseOption = (
   selected: number,
   options: { id: number; label: string; value: string; isGoBack?: boolean }[],
-  props?: { title: string },
+  props?: { title?: string },
 ) => {
   const title = props?.title ?? "Select an option:";
 
@@ -49,6 +66,7 @@ export const handleUpdateOptionsMenu =
       value: string;
       action: () => Promise<void> | void;
     }[],
+    title?: string,
   ) =>
   async (key: Buffer) => {
     if (key[2] === KeyCode.DOWN_ARROW) {
@@ -59,7 +77,7 @@ export const handleUpdateOptionsMenu =
       }
 
       clearScreen();
-      chooseOption(selectedOption, options);
+      chooseOption(selectedOption, options, { title });
     } else if (key[2] === KeyCode.UP_ARROW) {
       if (selectedOption > 1) {
         selectedOption--;
@@ -67,7 +85,7 @@ export const handleUpdateOptionsMenu =
         selectedOption = options.length;
       }
       clearScreen();
-      chooseOption(selectedOption, options);
+      chooseOption(selectedOption, options, { title });
     } else if (key[0] === KeyCode.ENTER) {
       clearScreen();
       process.stdin.removeAllListeners("data");
