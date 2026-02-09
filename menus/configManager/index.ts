@@ -2,8 +2,7 @@ import { chooseOption, handleUpdateOptionsMenu } from "../../core/input/menu";
 import { clearScreen } from "../../core/terminal/screen";
 import { hideCursor } from "../../core/terminal/cursor";
 import { showMenuStart } from "../start";
-
-const handleCreateConfig = async () => {};
+import { showCreateConfig } from "../createConfig";
 
 const handleDeleteConfig = async () => {};
 
@@ -17,7 +16,7 @@ const MENU_OPTIONS = [
     id: 1,
     label: "Create new config",
     value: "create",
-    action: handleCreateConfig,
+    action: showCreateConfig,
   },
   {
     id: 2,

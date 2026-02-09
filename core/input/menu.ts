@@ -54,15 +54,20 @@ export const handleUpdateOptionsMenu =
     if (key[2] === KeyCode.DOWN_ARROW) {
       if (selectedOption < options.length) {
         selectedOption++;
-        clearScreen();
-        chooseOption(selectedOption, options);
+      } else {
+        selectedOption = 1;
       }
+
+      clearScreen();
+      chooseOption(selectedOption, options);
     } else if (key[2] === KeyCode.UP_ARROW) {
       if (selectedOption > 1) {
         selectedOption--;
-        clearScreen();
-        chooseOption(selectedOption, options);
+      } else {
+        selectedOption = options.length;
       }
+      clearScreen();
+      chooseOption(selectedOption, options);
     } else if (key[0] === KeyCode.ENTER) {
       clearScreen();
       process.stdin.removeAllListeners("data");

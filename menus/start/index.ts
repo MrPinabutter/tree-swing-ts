@@ -20,6 +20,7 @@ export const showMenuStart = () => {
     id: menuOptions.length + 1,
     label: "other",
     value: "other",
+    isGoBack: true,
   };
 
   const options = [

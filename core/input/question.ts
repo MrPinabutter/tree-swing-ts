@@ -8,14 +8,12 @@ export const makeQuestion = (
   showCursor();
   process.stdin.setRawMode(false);
 
-  process.stdout.write(question);
-
   const rl = createInterface({
     input: process.stdin,
     output: process.stdout,
   });
 
-  rl.question("> ", (answer) => {
+  rl.question(`${question}\n > `, (answer) => {
     rl.close();
     process.stdin.setRawMode(true);
     callback(answer);
