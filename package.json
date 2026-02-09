@@ -4,6 +4,23 @@
   "description": "Git branch management CLI tool",
   "module": "main.ts",
   "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MrPinabutter/tree-swing-ts.git"
+  },
+  "homepage": "https://github.com/MrPinabutter/tree-swing-ts#readme",
+  "bugs": {
+    "url": "https://github.com/MrPinabutter/tree-swing-ts/issues"
+  },
+  "keywords": [
+    "git",
+    "branch",
+    "cli",
+    "tui",
+    "interactive",
+    "workflow"
+  ],
   "bin": {
     "tree-swing": "./main.ts"
   },
