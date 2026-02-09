@@ -1,8 +1,21 @@
 {
-  "name": "asker",
+  "name": "tree-swing",
+  "version": "1.0.0",
+  "description": "Git branch management CLI tool",
   "module": "main.ts",
   "type": "module",
-  "private": true,
+  "bin": {
+    "tree-swing": "./main.ts"
+  },
+  "files": [
+    "main.ts",
+    "core/**",
+    "menus/**",
+    "navigate/**",
+    "state/**",
+    "services/**",
+    "config.txt"
+  ],
   "devDependencies": {
     "@types/bun": "latest"
   },
