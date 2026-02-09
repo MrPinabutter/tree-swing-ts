@@ -71,7 +71,18 @@ const handleCreateNewBranch = (prefix: string, branch: string) => async () => {
     renderColor("⏳ Fetching and preparing...\n", COLORS.CYAN),
   );
 
-  await $`git fetch origin "${branch}:${branch}" --force`;
+  try {
+    await $`git fetch origin "${branch}:${branch}" --force`.quiet();
+  } catch {
+    process.stdout.write(
+      renderColor(
+        `⚠️  Failed to fetch branch "${branch}". Please check if it exists on the remote.\n`,
+        COLORS.RED,
+      ),
+    );
+    showCursor();
+    process.exit(0);
+  }
 
   const newBranch = `${prefix}/${currentBranch}`;
   process.stdout.write(renderColor(`📌 New branch: \n`, COLORS.GREEN));
