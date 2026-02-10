@@ -72,11 +72,24 @@ const handleCreateNewBranch = (prefix: string, branch: string) => async () => {
   );
 
   try {
-    await $`git fetch origin "${branch}:${branch}" --force`.quiet();
+    await $`git switch ${branch}`.quiet();
   } catch {
     process.stdout.write(
       renderColor(
-        `⚠️  Failed to fetch branch "${branch}". Please check if it exists on the remote.\n`,
+        `⚠️  Failed to enter into branch "${branch}". Please check if it exists on the remote.\n`,
+        COLORS.RED,
+      ),
+    );
+    showCursor();
+    process.exit(0);
+  }
+
+  try {
+    await $`git reset --hard origin/${branch}`.quiet();
+  } catch {
+    process.stdout.write(
+      renderColor(
+        `⚠️  Failed to update branch "${branch}". Please check if it exists on the remote.\n`,
         COLORS.RED,
       ),
     );
@@ -114,7 +127,7 @@ const handleCreateNewBranch = (prefix: string, branch: string) => async () => {
     renderColor(`🔗 Merging origin/${branch}...\n`, COLORS.GREEN),
   );
   try {
-    await $`git merge "origin/${branch}"`.quiet();
+    await $`git merge "origin/${currentBranch}"`.quiet();
     process.stdout.write(
       renderColor("✅ Success!\n", [COLORS.BOLD, COLORS.GREEN]),
     );
