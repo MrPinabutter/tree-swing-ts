@@ -85,7 +85,7 @@ const handleCreateNewBranch = (prefix: string, branch: string) => async () => {
   }
 
   try {
-    await $`git reset --hard origin/${branch}`.quiet();
+    await $`git pull origin ${branch}`.quiet();
   } catch {
     process.stdout.write(
       renderColor(
