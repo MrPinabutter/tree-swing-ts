@@ -1,5 +1,5 @@
 {
-  "name": "git-swing",
+  "name": "tree-swing",
   "version": "1.0.2",
   "description": "Git branch management CLI tool",
   "module": "main.ts",
@@ -22,7 +22,7 @@
     "workflow"
   ],
   "bin": {
-    "git-swing": "./main.ts"
+    "tree-swing": "./main.ts"
   },
   "files": [
     "main.ts",
