@@ -9,6 +9,7 @@ import { renderColor } from "../../core/input/text";
 import { COLORS } from "../../core/terminal/colors";
 import { ConfigService } from "../../services/configService";
 import { showConfigManager } from "../configManager";
+import { makeQuestion } from "../../core/input/question";
 
 const currentOption = 1;
 
@@ -142,6 +143,30 @@ const handleCreateNewBranch = (prefix: string, branch: string) => async () => {
     process.exit(0);
   }
 
-  showCursor();
-  process.exit(0);
+  makeQuestion("Did you like to open the PR now? (y/n)").then(
+    async (answer) => {
+      if (answer.toLowerCase() === "y") {
+        process.stdout.write(
+          renderColor(
+            `🔗 Opening PR for branch "${newBranch}"...\n`,
+            COLORS.GREEN,
+          ),
+        );
+
+        await $`gh pr create --base ${branch} --head ${newBranch} --title "${newBranch}" --body "Auto-created PR for ${newBranch}"`;
+
+        process.stdout.write(
+          renderColor(`✅ PR opened successfully!\n`, [
+            COLORS.BOLD,
+            COLORS.GREEN,
+          ]),
+        );
+      }
+
+      process.stdout.write(renderColor(`👋 Goodbye!\n`, COLORS.CYAN));
+
+      showCursor();
+      process.exit(0);
+    },
+  );
 };
