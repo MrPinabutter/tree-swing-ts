@@ -143,6 +143,8 @@ const handleCreateNewBranch = (prefix: string, branch: string) => async () => {
     process.exit(0);
   }
 
+  process.stdout.write("\n\n");
+
   makeQuestion("Did you like to open the PR now? (y/n)").then(
     async (answer) => {
       if (answer.toLowerCase() === "y") {
